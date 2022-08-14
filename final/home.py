@@ -7,16 +7,19 @@ from music import music
 
 class Home():
     def __init__(self,root):
-        widgets=[]
+        
         self.root=root
+        self.screen()
+    
+    def screen(self):
+        widgets=[]
         self.root.state('zoomed')
         options = [
             ["meditation"],
             ["music"],
-            ["routine checker"],
             ['games']
         ]
-        self.title=Label(root, text = "JustRelax", bg="black", fg = "yellow", padx = "50", pady = "30",font=('Arial',50))
+        self.title=Label(self.root, text = "JustRelax", bg="black", fg = "yellow", padx = "50", pady = "30",font=('Arial',50))
         self.title.pack(fill = X, side = TOP, pady = 5)
         widgets.append(self.title)
         for i in range(len(options)):
@@ -40,17 +43,23 @@ class Home():
         pages = {
             "meditation":{"function":main.MeditationComponent,"clear_root":True},
             "games":{"function":game.main,"clear_root":False},
-            "music":{"function":music.music_player,"clear_root":False}
+            "music":{"function":music.music_player,"clear_root":False},
+            "home":{"function":Home,"clear_root":False}
         }
+        def load_home(widgets):
+            print("w",widgets)
+            self.clear_page(widgets)
+            self.screen()
+        App = pages[page]['function']
         if(pages[page]['clear_root']):
             self.clear_page(widgets)
-        App = pages[page]['function']
-        app = App(self.root)
+            app = App(self.root,load_home)
+        else:
+            app = App()
+        
+        
 
 
-root=Tk()
-home = Home(root)
-root.mainloop()
 
     
     

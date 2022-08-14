@@ -188,7 +188,7 @@ class TicTacToeBoard(tk.Tk):
             button.config(fg="black")
 
 
-def main(root):
+def main():
     """Create the game's board and run its main loop."""
     game = TicTacToeGame()
     board = TicTacToeBoard(game)

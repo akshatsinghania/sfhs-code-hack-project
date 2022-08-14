@@ -6,7 +6,8 @@ import time
 # screen_height = self.root.winfo_screenheight()
 
 class MeditationComponent():
-    def __init__(self,root):
+    def __init__(self,root,load_page):
+        self.load_page=load_page
         self.root=root
         print("running")
         self.root.state('zoomed')
@@ -19,9 +20,12 @@ class MeditationComponent():
 
     def choose_meditation_time_screen(self):
         widgets = []
+        return_button = Button(self.root,text="return",command=lambda w=widgets: self.return_home(w))
+        return_button.grid(column=0,row=0)
+        widgets.append(return_button)
         choose_meditation_title = Label(self.root,text="Choose your meditation time")
         widgets.append(choose_meditation_title)
-        choose_meditation_title.grid(column=0,row=0)
+        choose_meditation_title.grid(column=1,row=1)
 
         time_options = [
             [10, 15], 
@@ -32,7 +36,7 @@ class MeditationComponent():
             for col_num, option in enumerate(row):
                 cur_button = Button(self.root, text=option, command = lambda x=option:self.start_meditation(x, widgets))
                 widgets.append(cur_button)
-                cur_button.grid(column=col_num+1, row=row_num+1)
+                cur_button.grid(column=col_num+2, row=row_num+2)
 
         
     # def clear_root(self):
@@ -42,16 +46,31 @@ class MeditationComponent():
 
     def clear_root(self, widgets_to_delete):
         for widget in widgets_to_delete:
-            widget.grid_forget()
+            try:
+                widget.grid_forget()
+                widget.forget()
+            except:
+                pass
 
        
     def start_meditation(self, duration, widgets):
         self.clear_root(widgets)
         self.meditation_screen(duration)
+
+    def return_home(self,widgets):
+        self.load_page(widgets)
+        
+
     
     def meditation_screen(self, duration):
         self.initiate_canvas()
         
+        widgets=[]
+
+        return_button = Button(self.root,text="return",command=lambda w=widgets: self.return_home(w))
+        return_button.place(x=0, y=0)
+        widgets.append(return_button)
+        widgets.append(self.canvas)
         width = self.root.winfo_width()
         height = self.root.winfo_height()
         print(width, height)
