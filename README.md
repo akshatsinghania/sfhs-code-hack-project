@@ -1,1 +1,1 @@
-# sfhs-code-hack-project
+# SFHS-code-hack-project
